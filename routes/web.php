@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +25,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/submit', function () {
+    return view('submit');
+});
+
+Route::post('/submit', function (Request $request) {
+    $data = $request->validate([
+        'title' => 'required|max:255',
+        'url' => 'required|url|max:255',
+        'description' => 'required|max:255',
+    ]);
+
+    $link = tap(new App\Models\Link($data))->save();
+
+    return redirect('/');
+});
