@@ -22,6 +22,12 @@ Route::get('/', function () {
     return view('welcome', ['links' => $links]);
 });
 
+Route::get('/welcome', function () {
+    $links = \App\Models\Link::all();
+
+    return view('welcome', ['links' => $links]);
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
